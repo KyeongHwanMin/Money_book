@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # libraries
     'rest_framework',
+
+    # local apps
+    'moneybook',
 ]
 
 MIDDLEWARE = [
