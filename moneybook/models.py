@@ -7,5 +7,6 @@ class Expense(models.Model):
     amount = models.PositiveIntegerField()
     memo = models.TextField()
     spent_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, db_index=True)
+    ip = models.GenericIPAddressField(null=True)
 
