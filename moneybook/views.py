@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, action
@@ -12,27 +13,41 @@ from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.permissions import IsAuthenticated
 
-
 # class ExpenseListAPIView(generics.ListAPIView):
 #     queryset = Expense.objects.filter(is_deleted=True)
 #     serializer_class = ExpenseSerializer
 
+User = get_user_model()
+
+
+class Myview(generics.ListAPIView):
+    serializer_class = ExpenseSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        # obj = User.objects.get(username=self.request.user.username)
+        # self.check_object_permissions(self.request, obj)
+        # return obj
+        return Expense.objects.filter(user_id=1)
+
+
 class ExpenseViewSet(ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
-    permission_classes = [IsAuthenticated, IsOwner ] #인증이 됨을 보장
+    permission_classes = [IsOwner]  # 인증이 됨을 보장
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['memo']
 
+    def get_queryset(self):
+        return Expense.objects.filter(is_deleted=False, user_id=self.request.user.id)
 
 
     def perform_create(self, serializer):
-        author = self.request.user
-        ip = self.request.META['REMOTE_ADDR']
-        serializer.save(author=author, ip=ip)
+        user = self.request.user
+        serializer.save(user=user)
 
     @action(detail=False, methods=['GET'])
-    def public(self, request):
+    def soft_deleted(self, request):
         qs = self.get_queryset().filter(is_deleted=True)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
@@ -44,6 +59,35 @@ class ExpenseViewSet(ModelViewSet):
         instance.save(update_fields=['is_deleted'])
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+
+# 모든 값 출
+# class ExpenseViewSet(ModelViewSet):
+#     # queryset = Expense.objects.all()
+#     queryset = Expense.objects.filter()
+#     serializer_class = ExpenseSerializer
+#     permission_classes = [IsOwner]  # 인증이 됨을 보장
+#     filter_backends = [SearchFilter, OrderingFilter]
+#     search_fields = ['memo']
+#
+#     def perform_create(self, serializer):
+#         user = self.request.user
+#         serializer.save(user=user)
+#
+#     @action(detail=False, methods=['GET'])
+#     def public(self, request):
+#         qs = self.get_queryset().filter(is_deleted=True)
+#         serializer = self.get_serializer(qs, many=True)
+#         return Response(serializer.data)
+#
+#     @action(detail=False, methods=['PATCH'])
+#     def set_public(self, request, pk):
+#         instance = self.get_object()
+#         instance.is_deleted = True
+#         instance.save(update_fields=['is_deleted'])
+#         serializer = self.get_serializer(instance)
+#         return Response(serializer.data)
+
 
 # Expense_list = ExpenseViewSet.as_view({
 #     'get': 'list',
@@ -58,9 +102,8 @@ class ExpenseViewSet(ModelViewSet):
 #     serializer = ExpenseSerializer(queryset, many=True)
 #     return Response(serializer.data)
 
-@api_view(['GET','POST'])
+@api_view(['GET', 'POST'])
 def Expense_list(request):
-
     if request.method == 'GET':
         serializer = ExpenseSerializer(Expense.objects.all(), many=True)
         return Response(serializer.data)
@@ -72,7 +115,8 @@ def Expense_list(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-@api_view(['GET','PUT','DELETE'])
+
+@api_view(['GET', 'PUT', 'DELETE'])
 def Expense_detail(request, pk):
     post = get_object_or_404(Expense, pk=pk)
 
