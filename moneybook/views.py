@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view, action
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from rest_framework.response import Response
+
+from moneybook.permission import IsOwner
 from moneybook.serializers import ExpenseSerializer
 from moneybook.models import Expense
 from rest_framework.viewsets import ModelViewSet
@@ -18,7 +20,7 @@ from rest_framework.permissions import IsAuthenticated
 class ExpenseViewSet(ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
-    permission_classes = [IsAuthenticated, IsAuthenticated ] #인증이 됨을 보장
+    permission_classes = [IsAuthenticated, IsOwner ] #인증이 됨을 보장
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['memo']
 
