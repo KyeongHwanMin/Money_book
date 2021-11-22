@@ -131,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'PAGE_SIZE': 3,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -145,6 +145,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         # Json 형식으로 변환
         'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
@@ -153,14 +154,4 @@ REST_FRAMEWORK = {
     ],
 }
 
-JWT_AUTH = {
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_ALGORITHM': 'HS256',  # 암호화 알고리즘
-    'JWT_ALLOW_REFRESH': True,  # refresh 사용 여부
-    'JWT_EXPIRATION_DELTA': timedelta(days=7),  # 유효기간 설정
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=28),  # JWT 토큰 갱신 유효기간
-    # import datetime 상단에 import 하기
-}
 
-# AbstractBaseUser 상속시 명시
-AUTH_USER_MODEL = 'accounts.User'
