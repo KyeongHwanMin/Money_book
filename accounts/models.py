@@ -42,9 +42,9 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     # 사용자의 username field는 nickname으로 설정
-    USERNAME_FIELD = 'name'
+    USERNAME_FIELD = 'id'
     # 필수로 작성해야하는 field
-    REQUIRED_FIELDS = ['email', 'name']
+    REQUIRED_FIELDS = ['email','name']
 
     def __str__(self):
         return self.email
