@@ -22,13 +22,12 @@ class RegisterUserView(APIView):
         serializer = RegisterUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        name = serializer.validated_data['name']
         email = serializer.validated_data['email']
         if User.objects.filter(email=email).exists():
             return Response(data={'error': '이미 존재하는 email 을 입력하였습니다.'},
                             status=status.HTTP_401_UNAUTHORIZED)
 
-        User.objects.create_user(name=name,email=email,
+        User.objects.create_user(name=serializer.validated_data['name'], email=email,
                                  password=serializer.validated_data['password'])
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -51,8 +50,8 @@ class LoginView(APIView):
 
         return Response(status=status.HTTP_200_OK)
 
-#
-# class LogoutView(APIView):
-#     def post(self, request):
-#         logout(request)
-#         return Response(status=status.HTTP_200_OK)
+
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response(status=status.HTTP_200_OK)

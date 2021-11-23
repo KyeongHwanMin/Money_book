@@ -6,7 +6,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from rest_framework.response import Response
 
-from moneybook.permissions import IsOwner
+
+from moneybook.permission import IsOwner
 from moneybook.serializers import ExpenseSerializer
 from moneybook.models import Expense
 from rest_framework.viewsets import ModelViewSet
@@ -33,15 +34,14 @@ from rest_framework.viewsets import ModelViewSet
 
 
 class ExpenseViewSet(ModelViewSet):
-    queryset = Expense.objects.all()
-    serializer_class = ExpenseSerializer
-    # permission_classes = [IsOwner]
+    permission_classes = [IsOwner]
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['memo']
+    queryset = Expense.objects.all()
+    serializer_class = ExpenseSerializer
 
     def perform_create(self, serializer):
-        user = self.request.user
-        serializer.save(user=user)
+        serializer.save(user=self.request.user)
 
     # def get_queryset(self):
     #     return Expense.objects.filter(is_deleted=True, user_id=self.request.user.id)
