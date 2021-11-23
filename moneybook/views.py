@@ -13,22 +13,23 @@ from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.permissions import IsAuthenticated
 
+
 # class ExpenseListAPIView(generics.ListAPIView):
 #     queryset = Expense.objects.filter(is_deleted=True)
 #     serializer_class = ExpenseSerializer
 
-User = get_user_model()
+# User = get_user_model()
 
-
-class Myview(generics.ListAPIView):
-    serializer_class = ExpenseSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        # obj = User.objects.get(username=self.request.user.username)
-        # self.check_object_permissions(self.request, obj)
-        # return obj
-        return Expense.objects.filter(user_id=1)
+#
+# class Myview(generics.ListAPIView):
+#     serializer_class = ExpenseSerializer
+#     permission_classes = (IsAuthenticated,)
+#
+#     def get_queryset(self):
+#         # obj = User.objects.get(username=self.request.user.username)
+#         # self.check_object_permissions(self.request, obj)
+#         # return obj
+#         return Expense.objects.filter(user_id=1)
 
 
 class ExpenseViewSet(ModelViewSet):
@@ -40,7 +41,6 @@ class ExpenseViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Expense.objects.filter(is_deleted=False, user_id=self.request.user.id)
-
 
     def perform_create(self, serializer):
         user = self.request.user

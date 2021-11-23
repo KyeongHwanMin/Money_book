@@ -15,7 +15,7 @@ class RegisterUserView(APIView):
 
         username = serializer.validated_data['email']
         if User.objects.filter(username=username).exists():
-            return Response(data={'error': '이미 존재하는 username 을 입력하였습니다.'},
+            return Response(data={'error': '이미 존재하는 email 을 입력하였습니다.'},
                             status=status.HTTP_401_UNAUTHORIZED)
 
         User.objects.create_user(username=username,
