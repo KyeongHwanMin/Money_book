@@ -20,3 +20,14 @@ pip install -r requirements.txt
 ```bash
 python manage.py migrate
 ```
+
+## Dockerfile 이미지 생성
+```bash
+docker build -t <이미지 이름>
+```
+
+## Docker Container 실행
+```bash
+docker run -itd <이미지 이름>
+```
+
