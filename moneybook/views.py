@@ -6,20 +6,20 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from rest_framework.response import Response
 
-from moneybook.permission import IsOwner
+from moneybook.permissions import IsOwner
 from moneybook.serializers import ExpenseSerializer
 from moneybook.models import Expense
 from rest_framework.viewsets import ModelViewSet
 
-from rest_framework.permissions import IsAuthenticated
 
-
+#
 # class ExpenseListAPIView(generics.ListAPIView):
 #     queryset = Expense.objects.filter(is_deleted=True)
 #     serializer_class = ExpenseSerializer
 
+#
 # User = get_user_model()
-
+#
 #
 # class Myview(generics.ListAPIView):
 #     serializer_class = ExpenseSerializer
@@ -35,20 +35,29 @@ from rest_framework.permissions import IsAuthenticated
 class ExpenseViewSet(ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
-    permission_classes = [IsOwner]  # 인증이 됨을 보장
+    # permission_classes = [IsOwner]
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['memo']
-
-    def get_queryset(self):
-        return Expense.objects.filter(is_deleted=False, user_id=self.request.user.id)
 
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(user=user)
 
+    # def get_queryset(self):
+    #     return Expense.objects.filter(is_deleted=True, user_id=self.request.user.id)
+    # def get_queryset(self):
+    #     qs = self.queryset.filter(user=self.request.user, is_deleted=False)
+    #     return qs
+
     @action(detail=False, methods=['GET'])
-    def soft_deleted(self, request):
-        qs = self.get_queryset().filter(is_deleted=True)
+    def deleted(self, request):
+        qs = self.get_queryset().filter(is_deleted=True, user_id=self.request.user.id)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'])
+    def public(self, request):
+        qs = self.get_queryset().filter(is_deleted=False, user_id=self.request.user.id)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
