@@ -11,5 +11,5 @@ urlpatterns =[
      path('',include(router.urls)),
      path('Myview', Myview.as_view(), name='Myview'),
      path('Expense1/', views.Expense_list),
-     path('Expense2/', views.Expense_detail),
+     path('Expense_detail/', views.Expense_detail),
 ]
