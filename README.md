@@ -9,9 +9,14 @@
 
 ## 서버 구동 방법
 
-## Python 종속성 설치
+### Python 종속성 설치
 ```
 pip install -r requirements.txt
+```
+
+### MySQL 5.7 컨테이너 실행
+```bash
+docker-compose up -d
 ```
 
 ## DB 마이그레이션 
