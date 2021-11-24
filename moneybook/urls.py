@@ -10,6 +10,9 @@ router.register('Expense', views.ExpenseViewSet)
 urlpatterns =[
      path('',include(router.urls)),
      # path('Myview', Myview.as_view(), name='Myview'),
-     path('Expense1/', views.Expense_list),
-     path('Expense_detail/', views.Expense_detail),
+     # path('Expense_list/', views.Expense_list),
+     #
+     #
+     # path('Expense_detail/', views.Expense_detail),
+     #path('Expense_list_deleted/', views.Expense_list_deleted),
 ]

@@ -2,7 +2,7 @@ from .models import User
 from .serializers import RegisterUserSerializer, LoginSerializer
 
 from rest_framework import generics, status
-
+from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model, login, logout
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 #
 #
 class RegisterUserView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = RegisterUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -34,6 +35,7 @@ class RegisterUserView(APIView):
 
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
