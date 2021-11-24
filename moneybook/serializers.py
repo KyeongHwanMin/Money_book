@@ -15,8 +15,9 @@ class ExpenseSerializer(serializers.ModelSerializer):
             'username',
             'email',
             'amount',
-            'spent_at',
             'memo',
+            'spent_at',
+            'updated_at',
             'is_deleted',
 
         ]

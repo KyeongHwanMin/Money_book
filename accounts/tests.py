@@ -10,6 +10,10 @@ def create_user(name, email, password):
     return User.objects.create_user(name=name, email=email, password=password)
 
 
+def login(user, password):
+    return User.objects.login(user=user, password=password)
+
+
 class Test(TestCase):
     def test_회원가입(self):
         response = self.client.post(
@@ -46,3 +50,12 @@ class Test(TestCase):
         )
         print(response.json())
         assert response.status_code == 400
+
+    def test_로그아웃(self):
+        login(user='user', password='password')
+
+        response = self.client.post(
+            '/accounts/logout/',
+        )
+        print(response.json())
+        assert response.status_code == 200

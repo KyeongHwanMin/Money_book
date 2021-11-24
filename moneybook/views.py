@@ -1,6 +1,3 @@
-from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
-from rest_framework import generics, status
 from rest_framework.decorators import api_view, action, permission_classes
 from rest_framework.filters import SearchFilter, OrderingFilter
 
@@ -65,14 +62,14 @@ class ExpenseViewSet(ModelViewSet):
                 return Response(serializer.data, status=200)
             return Response(serializer.errors, status=400)
 
-    # 임시 삭제된 리스트 출력
+    # 삭제된 리스트 출력
     @action(detail=False, methods=['GET'])
     def deleted(self, request):
         qs = self.get_queryset().filter(is_deleted=True, user_id=self.request.user.id)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
-    # 임시 삭제
+    # 삭제
     @action(detail=True, methods=['PATCH'])
     def set_delete(self, request, pk):
         instance = self.get_object()
@@ -81,6 +78,7 @@ class ExpenseViewSet(ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    # 삭제 복구
     @action(detail=True, methods=['PATCH'])
     def restore(self, request, pk):
         instance = self.get_object()

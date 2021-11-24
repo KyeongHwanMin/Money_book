@@ -6,6 +6,6 @@ COPY . /home/src/
 
 RUN pip install -r requirements.txt
 
-EXPOSE 80880
+EXPOSE 8080
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
