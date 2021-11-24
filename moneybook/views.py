@@ -6,7 +6,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from rest_framework.response import Response
 
-from moneybook.moneybook_permissions import IsOwner
+from moneybook.moneybook_permissions import IsAuthorOrReadonly
 
 from moneybook.serializers import ExpenseSerializer
 from moneybook.models import Expense
@@ -37,7 +37,7 @@ class ExpenseViewSet(ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
-    permission_classes = [IsOwner]
+    permission_classes = [IsAuthorOrReadonly]
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['memo']
 
@@ -77,6 +77,14 @@ class ExpenseViewSet(ModelViewSet):
     def set_delete(self, request, pk):
         instance = self.get_object()
         instance.is_deleted = True
+        instance.save(update_fields=['is_deleted'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['PATCH'])
+    def restore(self, request, pk):
+        instance = self.get_object()
+        instance.is_deleted = False
         instance.save(update_fields=['is_deleted'])
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
