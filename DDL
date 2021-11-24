@@ -1,0 +1,19 @@
+CREATE TABLE `accounts_user` (`password` varchar(128) NOT NULL,
+                               `last_login` datetime(6) NULL,
+                               `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                                `email` varchar(100) NOT NULL UNIQUE,
+                                `name` varchar(100) NOT NULL,
+                                `is_active` bool NOT NULL,
+                                `is_admin` bool NOT NULL);
+
+
+CREATE TABLE `moneybook_expense` (`id` bigint AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                                  `amount` integer UNSIGNED NOT NULL,
+                                  `memo` longtext NOT NULL,
+                                  `spent_at` datetime(6) NOT NULL,
+                                   `is_deleted` bool NOT NULL,
+                                   `user_id` integer NOT NULL);
+
+
+ALTER TABLE `moneybook_expense` ADD CONSTRAINT `moneybook_expense_user_id_1a700422_fk_accounts_user_id`
+             FOREIGN KEY (`user_id`) REFERENCES `accounts_user` (`id`);
