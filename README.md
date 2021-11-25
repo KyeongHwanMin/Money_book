@@ -70,7 +70,7 @@ docker run -itd -p 8181:8080 pay_here_server
 
 ### API Specifications
 
-#### 회원가입
+### 회원가입
 
 [요청]
 
