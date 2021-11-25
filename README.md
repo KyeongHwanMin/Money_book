@@ -155,7 +155,6 @@ POST /account/register-user/
 [요청]
 
 - URL : POST /expense/
-  - Path 파라미터 설명 : pk 는 exponsd의 식별 아이디를 입력합니다
 
 
 
@@ -197,7 +196,7 @@ POST /account/register-user/
 
   - 성공 응답시 상태코드 : 200
 
-  - 응답 Body 설명 : 지출내역(expense) 가 생성된 결과가 반환됩니다.
+  - 응답 Body 설명 : 지출내역(expense) 이 생성된 결과가 반환됩니다.
 
 
 
@@ -207,9 +206,14 @@ POST /account/register-user/
 
 ##### 나의 지출내역, 메모 수정
 
-- Request
+[요청]
 
-PATCH /expense/'pk'/
+- URL:PATCH /expense/:pk/
+  - Path 파라미터 설명 : pk 는 expense의 식별 아이디를 입력합니다
+
+
+
+- Body
 
 ```json
 {
@@ -218,7 +222,13 @@ PATCH /expense/'pk'/
 }
 ```
 
-- Response
+- Body 파라미터 설명
+  - amount : 지출한 금액을 의미합니다. 0 이상의 정수로만 입력해야 합니다.
+  - memo : 메모를 의미합니다. 텍스트를 입력해야 합니다.
+
+[응답]
+
+- Body
 
 ```json
 {
@@ -231,13 +241,25 @@ PATCH /expense/'pk'/
 }
 ```
 
+- 응답에 대한 설명
+  - 성공 응답시 상태코드 : 200
+  - 응답 Body 설명 : 지출내역(expense) 이 수정된 결과가 반환됩니다.
+
+
+
 ##### 나의 지출내역 삭제
 
-- Request
+[요청]
 
-DELETE /expense/'pk'/
+- URL: DELETE /expense/:pk/
 
-- Response
+  - Path 파라미터 설명 : pk 는 expense의 식별 아이디를 입력합니다
+
+  
+
+[응답]
+
+- Body
 
 ```json
 {
@@ -245,13 +267,23 @@ DELETE /expense/'pk'/
 }
 ```
 
+- Body 파라미터 설명
+
+  - 내역이 삭제 됩니다.
+
+    
+
 ##### 나의 삭제된 지출내역 조회
 
-- Request
+[요청]
 
-GET /expense/?is_deleted=true
+- URL: GET /expense/?is_deleted=true
 
-- Response
+
+
+[응답]
+
+- Body
 
 ```json
 {
@@ -271,13 +303,24 @@ GET /expense/?is_deleted=true
 }
 ```
 
+- 응답에 대한 설명
+
+  - 성공 응답시 상태코드 : 200
+
+  - 응답 Body 설명 : 삭제된 지출내역(expense)의 결과가 반환됩니다.
+
+    
+
 ##### 나의 삭제된 지출내역 복구
 
-- Request
+[요청]
 
-POST /expense/:pk/restore/
+- URL: POST /expense/:pk/restore/
+  - Path 파라미터 설명 : pk 는 expense의 식별 아이디를 입력합니다
 
-- Response
+[응답]
+
+-  Body
 
 ```json
 {
@@ -290,13 +333,25 @@ POST /expense/:pk/restore/
 }
 ```
 
+- 응답에 대한 설명
+
+  - 성공 응답시 상태코드 : 200
+
+  - 응답 Body 설명 : 복구된 지출내역(expense) 의 결과가 반환됩니다.
+
+    
+
 ##### 나의 지출내역 조회
 
-- Request
+[요청]
 
-GET /expense/
+- URL: GET /expense/
 
-- Response
+
+
+[응답]
+
+- Body
 
 ```json
 {
@@ -316,13 +371,24 @@ GET /expense/
 }
 ```
 
+- 응답에 대한 설명
+
+  - 성공 응답시 상태코드 : 200
+
+  - 응답 Body 설명 : 지출내역(expense) 의 결과가 반환됩니다.
+
+    
+
 ##### 나의 지출내역 상세조회
 
-- Request
+[요청]
 
-GET expense/'pk'/
+- URL: GET expense/:pk/
+  - Path 파라미터 설명 : pk 는 exponsd의 식별 아이디를 입력합니다
 
-- Response
+[응답]
+
+- Body
 
 ```json
 {
@@ -334,3 +400,7 @@ GET expense/'pk'/
   "updated_at": "2021-11-25T03:59:13.489565Z"
 }
 ```
+
+- 응답에 대한 설명
+  - 성공 응답시 상태코드 : 200
+  - 응답 Body 설명 : 지출내역(expense)상세 조회된 결과가 반환됩니다.
