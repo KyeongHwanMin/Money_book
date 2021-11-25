@@ -132,8 +132,78 @@ POST /expense/
   "updated_at": "2021-11-25T02:48:20.048440Z"
 }    
 ```
+##### 나의 지출내역, 메모 수정
+- Request
 
-##### 나의 지출내역 목록조회
+PATCH /expense/'pk'/
+```json
+{
+  "amount": 2,
+  "memo": "test2"
+}
+```
+- Response
+```json
+{
+  "pk": 7,
+  "email": "email@email.com",
+  "amount": 2,
+  "memo": "test2",
+  "spent_at": "2021-11-25T03:11:27.185208Z",
+  "updated_at": "2021-11-25T03:27:05.634965Z"
+}
+```
+##### 나의 지출내역 삭제
+- Request
+
+DELETE /expense/'pk'/
+
+- Response
+```json
+{
+  HTTP 204 No Content
+}
+```
+##### 나의 삭제된 지출내역 조회
+- Request
+
+GET /expense/?is_deleted=true
+- Response
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "pk": 6,
+      "email": "email@email.com",
+      "amount": 100,
+      "memo": "test_memo",
+      "spent_at": "2021-11-25T02:48:20.048201Z",
+      "updated_at": "2021-11-25T03:17:23.373457Z"
+    }
+  ]
+}
+```
+##### 나의 삭제된 지출내역 복구
+- Request
+
+POST /expense/'pk'/restore/
+
+- Response
+```json
+{
+  "pk": 7,
+  "email": "email@email.com",
+  "amount": 2,
+  "memo": "test2",
+  "spent_at": "2021-11-25T03:11:27.185208Z",
+  "updated_at": "2021-11-25T03:59:13.489565Z"
+}
+```
+
+##### 나의 지출내역 조회
 - Request
 
 GET /expense/
@@ -174,75 +244,8 @@ GET expense/'pk'/
 }
 ```
 
-##### 나의 지출내역, 메모 수정
-- Request
 
-PATCH /expense/'pk'/
-```json
-{
-  "amount": 2,
-  "memo": "test2"
-}
-```
-- Response
-```json
-{
-  "pk": 7,
-  "email": "email@email.com",
-  "amount": 2,
-  "memo": "test2",
-  "spent_at": "2021-11-25T03:11:27.185208Z",
-  "updated_at": "2021-11-25T03:27:05.634965Z"
-}
-```
 
-##### 나의 지출내역 삭제
-- Request
 
-DELETE /expense/'pk'/
 
-- Response
-```json
-{
-  HTTP 204 No Content
-}
-```
-##### 나의 삭제된 지출내역 목록조회
-- Request
 
-GET /expense/?is_deleted=true
-- Response
-```json
-{
-  "count": 1,
-  "next": null,
-  "previous": null,
-  "results": [
-    {
-      "pk": 6,
-      "email": "email@email.com",
-      "amount": 100,
-      "memo": "test_memo",
-      "spent_at": "2021-11-25T02:48:20.048201Z",
-      "updated_at": "2021-11-25T03:17:23.373457Z"
-    }
-  ]
-}
-```
-
-##### 나의 삭제된 지출내역 복구
-- Request
-
-POST /expense/'pk'/restore/
-
-- Response
-```json
-{
-  "pk": 7,
-  "email": "email@email.com",
-  "amount": 2,
-  "memo": "test2",
-  "spent_at": "2021-11-25T03:11:27.185208Z",
-  "updated_at": "2021-11-25T03:59:13.489565Z"
-}
-```
