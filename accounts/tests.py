@@ -2,10 +2,6 @@ from accounts.models import User
 from django.test import TestCase
 
 
-# python manage.py test : 테스트 실행방법
-# python manage.py test accounts.tests.Test.함수 : 개별 테스트
-
-
 def create_user(name, email, password):
     return User.objects.create_user(name=name, email=email, password=password)
 

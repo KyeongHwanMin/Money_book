@@ -1,6 +1,5 @@
 from .models import User
 from .serializers import RegisterUserSerializer, LoginSerializer
-
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import get_user_model, login, logout
@@ -8,16 +7,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-# from accounts.serializers import RegisterUserSerializer, LoginSerializer
-
-
-# class RegisterUserView(generics.CreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = RegisterUserSerializer
-
-# User = get_user_model()
-#
-#
 class RegisterUserView(APIView):
     permission_classes = [AllowAny]
 
@@ -53,7 +42,7 @@ class LoginView(APIView):
 
         login(request, user)
 
-        return Response(data={'success':'로그인성공'}, status=status.HTTP_200_OK)
+        return Response(data={'success': '로그인성공'}, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
@@ -62,4 +51,4 @@ class LogoutView(APIView):
     def post(self, request):
         logout(request)
 
-        return Response(data={'success':'로그아웃 되었습니다.'}, status=status.HTTP_200_OK)
+        return Response(data={'success': '로그아웃 되었습니다.'}, status=status.HTTP_200_OK)

@@ -125,19 +125,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],
     'PAGE_SIZE': 10,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_PERMISSION_CLASSES': [
-        # 인증된 사용자만 접근가능
         'rest_framework.permissions.IsAuthenticated',
-        #'rest_framework.permissions.IsAdminUser',  # 관리자만 접근 가능
-        'rest_framework.permissions.AllowAny',  # 누구나 접근 가능
+        'rest_framework.permissions.AllowAny',
 
     ],
     'DEFAULT_RENDERER_CLASSES': [
-        # Json 형식으로 변환
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],

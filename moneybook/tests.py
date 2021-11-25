@@ -1,7 +1,7 @@
 from accounts.models import User
 from moneybook.models import Expense
 from django.test import TestCase
-from moneybook.serializers import ExpenseSerializer
+from moneybook.serializers import ExpenseDefaultSerializer
 
 
 def create_user(email):
@@ -31,7 +31,7 @@ class ExpenseListTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         actual = response.json()
-        expected = {'count': 1, 'next': None, 'previous': None, 'results': [ExpenseSerializer(expense).data]}
+        expected = {'count': 1, 'next': None, 'previous': None, 'results': [ExpenseDefaultSerializer(expense).data]}
         self.assertEqual(actual, expected)
 
     def test_deleted_expense_list(self):
