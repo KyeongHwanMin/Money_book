@@ -11,6 +11,7 @@
   <br>
 
 ## 서버 구동 방법
+### 로컬환경 서버 구동
 
 1. Python 종속성 설치
 ```
@@ -33,15 +34,16 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+<br>
 
-### Dockerfile 이미지 생성
+### 도커환경 서버구동
+1. 이미지 빌드
 ```bash
-docker build -t <이미지 이름>
+docker build -t pay_here_server .
 ```
-
-### Docker Container 실행
+2. 컨테이너 실행
 ```bash
-docker run -itd <이미지 이름>
+docker run -itd -p 8181:8080 pay_here_server
 ```
 
 
@@ -157,25 +159,21 @@ GET /expense/
 
 ##### 나의 지출내역 상세조회
 - Request
-  GET /account/register-user
-```json
-{
 
-}
-```
+GET expense/'pk'/
+
 - Response
 ```json
 {
-    
+  "pk": 7,
+  "amount": 2,
+  "memo": "test2",
+  "email": "email@email.com",
+  "spent_at": "2021-11-25T03:11:27.185208Z",
+  "updated_at": "2021-11-25T03:59:13.489565Z"
 }
 ```
 
-- Error
-
-| 에러코드 | 설명 |
-| --- | --- |
-| |   |
-|  | |
 ##### 나의 지출내역, 메모 수정
 - Request
 
