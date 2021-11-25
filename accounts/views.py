@@ -46,14 +46,14 @@ class LoginView(APIView):
         try:
             user = User.objects.get(email=serializer.validated_data['email'])
         except User.DoesNotExist:
-            return Response(data={'error': '잘못 입력하였습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': '없는 아이디 입니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(serializer.validated_data['password']):
-            return Response(data={'error': '잘못 입력하였습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'error': '잘못 입력하였습니다.'}, status=status.HTTP_401_BAD_REQUEST)
 
         login(request, user)
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(data={'success':'로그인성공'}, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
@@ -62,4 +62,4 @@ class LogoutView(APIView):
     def post(self, request):
         logout(request)
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(data={'success':'로그아웃 되었습니다.'}, status=status.HTTP_200_OK)

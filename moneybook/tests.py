@@ -1,24 +1,72 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
-
-# python manage.py test : 테스트 실행방법
-# python manage.py test moneybook.tests.Test.함수 : 개별 테스트
+from accounts.models import User
 from moneybook.models import Expense
-
-def create_user(username, email, password):
-    return User.objects.create_user(username=username, email=email, password=password)
-
-def create_Expense(user_id, amount, memo):
-    return Expense.objects.create(user_id=user_id, amount=amount, memo=memo)
+from django.test import TestCase
+from moneybook.serializers import ExpenseSerializer
 
 
-class Test(TestCase):
-    def test_Expense(self):
-        create_user(username='test', email='test111@test.com', password='12345')
-        create_Expense(user_id=1, amount="100", memo="test")
-        response = self.client.get(
-            '/Expense/',
-            Expense.objects.all()
-        )
-        print(response.json())
-        assert response.status_code == 200
+def create_user(email):
+    return User.objects.create_user(name='민경환', email=email, password='1234')
+
+
+def create_expense(user, amount, memo='memo', is_deleted=False):
+    return Expense.objects.create(user=user, amount=amount, memo=memo, is_deleted=is_deleted)
+
+
+class ExpenseListTest(TestCase):
+    url = '/expense/'
+
+    def test_not_authenticated(self):
+        response = self.client.get('/expense/')
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_expense_list(self):
+        user = create_user('test@test.com')
+        expense = create_expense(user, amount=100)
+
+        self.client.force_login(user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+        actual = response.json()
+        expected = {'count': 1, 'next': None, 'previous': None, 'results': [ExpenseSerializer(expense).data]}
+        self.assertEqual(actual, expected)
+
+    def test_deleted_expense_list(self):
+        user = create_user('test@test.com')
+        create_expense(user, amount=100, is_deleted=False)
+
+        self.client.force_login(user)
+
+        response = self.client.get(f'{self.url}?is_deleted=true')
+
+        self.assertEqual(response.status_code, 200)
+
+        actual = response.json()
+        expected = {'count': 0, 'next': None, 'previous': None, 'results': []}
+        self.assertEqual(actual, expected)
+
+
+class ExpenseCreateTest(TestCase):
+    url = '/expense/'
+
+    def test_not_authenticated(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, 403)
+
+
+class ExpenseRetrieveTest(TestCase):
+
+    def get_url(self, expense):
+        return f'/expense/{expense.id}/'
+
+    def test_not_authenticated(self):
+        user = create_user('test@test.com')
+        expense = create_expense(user, amount=100, is_deleted=False)
+
+        response = self.client.post(self.get_url(expense))
+
+        self.assertEqual(response.status_code, 403)

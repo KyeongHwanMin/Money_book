@@ -9,5 +9,3 @@ class Expense(models.Model):
     spent_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False, db_index=True)
-
-
