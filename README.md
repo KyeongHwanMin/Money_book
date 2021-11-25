@@ -394,7 +394,7 @@ docker run -itd -p 8181:8080 pay_here_server
 [요청]
 
 - URL: GET expense/:pk/
-  - Path 파라미터 설명 : pk 는 exponsd의 식별 아이디를 입력합니다
+  - Path 파라미터 설명 : pk 는 expense의 식별 아이디를 입력합니다
 
 [응답]
 
