@@ -72,9 +72,11 @@ docker run -itd -p 8181:8080 pay_here_server
 
 ##### 회원가입
 
-- Request
+[요청]
 
-POST /account/register-user/
+- URL: POST /account/register-user/
+
+- Body
 
 ```json
 {
@@ -84,7 +86,9 @@ POST /account/register-user/
 }
 ```
 
-- Response
+[응답]
+
+- Body
 
 ```json
 {
@@ -104,9 +108,11 @@ POST /account/register-user/
 
 ##### 로그인
 
-- Request
+- [요청]
 
-POST /account/register-user/
+- URL: POST /account/register-user/
+
+- Body
 
 ```json
 {
@@ -115,7 +121,9 @@ POST /account/register-user/
 }
 ```
 
-- Response
+[응답]
+
+- Body
 
 ```json
 {
@@ -134,11 +142,13 @@ POST /account/register-user/
 
 ##### 로그아웃
 
-- Request
+[요청]
 
-POST /account/register-user/
+- URL: POST /account/register-user/
 
-- Response
+[응답]
+
+- Body
 
 ```json
 {
