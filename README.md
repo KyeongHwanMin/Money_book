@@ -110,7 +110,7 @@ docker run -itd -p 8181:8080 pay_here_server
 
 - [요청]
 
-- URL: POST /account/register-user/
+- URL: POST /account/login/
 
 - Body
 
@@ -144,7 +144,7 @@ docker run -itd -p 8181:8080 pay_here_server
 
 [요청]
 
-- URL: POST /account/register-user/
+- URL: POST /account/logout/
 
 [응답]
 
