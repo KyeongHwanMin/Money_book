@@ -371,11 +371,8 @@ docker run -itd -p 8181:8080 pay_here_server
   "results": [
     {
       "pk": 6,
-      "email": "email@email.com",
       "amount": 100,
-      "memo": "test_memo",
-      "spent_at": "2021-11-25T02:48:20.048201Z",
-      "updated_at": "2021-11-25T02:48:20.048440Z"
+      "memo": "test_memo"
     }
   ]
 }
