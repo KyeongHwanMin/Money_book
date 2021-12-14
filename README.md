@@ -406,6 +406,7 @@ docker run -itd -p 8181:8080 pay_here_server
   "spent_at": "2021-11-25T03:11:27.185208Z",
   "updated_at": "2021-11-25T03:59:13.489565Z"
 }
+
 ```
 
 - 응답에 대한 설명
