@@ -1,7 +1,6 @@
 # Money Book API
 
 <br>
-
 ### 개요
 
 소비내역을 기록/관리하는 API
